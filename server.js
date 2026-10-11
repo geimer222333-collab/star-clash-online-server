@@ -6,6 +6,8 @@ const path = require('path');
 
 const app = express();
 app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/bots.html', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'bots.html')));
+app.get('/online.html', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'online.html')));
 app.get('/health', (_req, res) => res.json({ ok: true, uptime: Math.round(process.uptime()) }));
 
 const server = http.createServer(app);
