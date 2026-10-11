@@ -69,7 +69,25 @@ function animate(){requestAnimationFrame(animate);let dt=Math.min(.035,clock.get
 // Firebase auth handler is installed below. If Firebase scripts fail to load, show a clear message.
 const reg=$('#register'), savedName=localStorage.getItem('sc_name');
 if(savedName)reg.classList.add('hidden');
-$('#regForm').addEventListener('submit',async e=>{e.preventDefault();const n=$('#regName').value.trim(),pw=$('#regPass').value;if(n.length<2){toast('Имя должно содержать минимум 2 символа');return}if(pw.length<6){toast('Пароль должен содержать минимум 6 символов');return}if(typeof window.scFirebaseAuthSubmit==='function'){await window.scFirebaseAuthSubmit(n,pw)}else{toast('Firebase не загрузился. Обнови страницу и проверь интернет.')}});
+$('#regForm').addEventListener('submit', async e => {
+e.preventDefault();
+const n = $('#regName').value.trim();
+const pw = $('#regPass').value;
+if (n.length < 2) {
+toast('Имя должно быть не короче 2 символов');
+return;
+}
+if (pw.length < 6) {
+toast('Пароль должен содержать минимум 6 символов');
+return;
+}
+if (typeof window.scFirebaseAuthSubmit === 'function') {
+await window.scFirebaseAuthSubmit(n, pw);
+} else {
+toast('Firebase не загрузился. Обнови страницу и попробуй снова.');
+}
+});
+
 $('#screenBtn').addEventListener('click',async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();}else{await document.exitFullscreen()}try{await screen.orientation.lock('landscape')}catch(e){} }catch(e){toast('Нажми меню браузера и выбери «На весь экран»')}});
 $('#rotateTry').onclick=async()=>{try{await screen.orientation.lock('landscape')}catch(e){}if(innerWidth>innerHeight)$('#rotateHint').style.display='none'};
 $('#rotateAnyway').onclick=()=>$('#rotateHint').style.display='none';
