@@ -1,14 +1,10 @@
 {
-  "name": "star-clash-online-server",
-  "version": "1.0.1",
-  "private": true,
-  "description": "Prototype matchmaking and Socket.IO server for STAR CLASH",
+  "name": "star-clash-online",
+  "version": "1.0.0",
+  "description": "STAR CLASH online prototype",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
   },
   "dependencies": {
     "express": "^4.21.2",
