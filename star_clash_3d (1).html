@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#18b8e9">
+<title>STAR CLASH 3D — Арена героев</title>
+<style>
+:root{--navy:#18304f;--deep:#10223e;--gold:#ffda48;--gold2:#ffad21;--cyan:#44e6ff;--red:#ff596b;--panel:#24517b;--line:#78d9ff}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10b6ed;color:white;font-family:Inter,system-ui,-apple-system,Arial,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}button{font:inherit;border:0;color:inherit;cursor:pointer;touch-action:manipulation}#app{height:100dvh;width:100vw;position:relative;overflow:hidden;background:linear-gradient(180deg,#39d9ff,#098acb)}#three{position:absolute;inset:0;z-index:0}#three canvas{display:block;width:100%;height:100%}.shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#05284b4a 0%,transparent 35%,#06305242 100%)}.top{position:absolute;z-index:5;top:max(7px,env(safe-area-inset-top));left:8px;right:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:6px}.profile{height:43px;display:flex;align-items:center;gap:7px;max-width:42%;padding:4px 10px 4px 5px;border:2px solid #8edfff;border-radius:12px;background:linear-gradient(#3474a9,#1a416a);box-shadow:0 4px 0 #0d2747;min-width:0}.avatar{width:31px;height:31px;flex-shrink:0;display:grid;place-items:center;border-radius:9px;background:linear-gradient(145deg,#ffe878,#ff8d26);border:2px solid white;font-size:19px}.ptext{min-width:0}.ptext strong{display:block;font-size:11px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px #10243c}.ptext small{font-size:9px;color:#c1f6ff;font-weight:900}.currency{display:flex;gap:5px;align-items:center}.wallet{position:relative;min-width:67px;height:36px;border-radius:10px;border:2px solid #a5eaff;background:linear-gradient(#347ab5,#18456d);box-shadow:0 3px 0 #0c2b4a;display:flex;align-items:center;justify-content:center;gap:4px;padding:0 7px;font-size:12px;font-weight:1000;text-shadow:0 1px 2px #16304d}.wallet .plus{position:absolute;right:-5px;top:-6px;width:17px;height:17px;border-radius:50%;background:linear-gradient(#a9ff73,#42bf3e);border:2px solid white;color:#17401b;font-size:13px;line-height:13px;text-shadow:none}.gem{display:inline-block;width:14px;height:17px;clip-path:polygon(25% 0,75% 0,100% 35%,50% 100%,0 35%);background:linear-gradient(90deg,#83fdff,#18a9f7 45%,#d4ffff 52%,#267aff);filter:drop-shadow(0 1px 1px #006baf);transform:rotate(2deg)}.coin{color:#fff36d;font-size:17px;text-shadow:0 2px #d47a16}.brand{position:absolute;z-index:2;top:9%;left:0;right:0;text-align:center;pointer-events:none;transform:rotate(-2deg)}.brand b{font-size:clamp(30px,8vw,51px);font-weight:1000;letter-spacing:-2px;line-height:.88;display:block;color:#ffe95c;text-shadow:-2px -2px 0 #7c3b22,2px -2px 0 #7c3b22,-2px 3px 0 #7c3b22,3px 4px 0 #17304d,0 7px 0 #102540}.brand span{font-size:.58em;color:#fff;text-shadow:-2px -2px 0 #9d392b,2px -2px 0 #9d392b,-2px 2px 0 #9d392b,2px 3px 0 #17304d}.brand small{display:block;margin-top:6px;font-size:9px;letter-spacing:3px;font-weight:1000;text-shadow:0 2px 3px #10456b;color:#d9fbff}.side{position:absolute;z-index:4;top:28%;left:8px;display:flex;flex-direction:column;gap:8px}.side button,.rightside button{width:62px;min-height:51px;padding:5px 3px;border-radius:11px;border:2px solid #a4dfff;background:linear-gradient(#3a78b2,#1b426d);box-shadow:0 4px 0 #103050, inset 0 1px 0 #ffffff70;font-size:9px;font-weight:1000;text-shadow:0 1px 2px #10233a;line-height:1.1}.side button span,.rightside button span{display:block;font-size:23px;line-height:25px}.rightside{position:absolute;z-index:4;top:28%;right:8px;display:flex;flex-direction:column;gap:8px}.event{position:absolute;z-index:4;bottom:82px;left:9px;right:9px;display:flex;align-items:stretch;gap:8px}.eventbox{flex:1;min-width:0;text-align:left;padding:8px 10px;border:2px solid #9aeaff;border-radius:12px;background:linear-gradient(110deg,#19527eeb,#1a3560eF);box-shadow:0 4px 0 #0c2848}.eyebrow{font-size:8px;letter-spacing:1px;color:#a6f4ff;font-weight:1000}.eventbox strong{display:block;font-size:14px;text-shadow:0 2px #102943}.eventbox small{display:block;color:#d5f4ff;font-size:10px}.play{width:39%;min-width:120px;border:3px solid #fff2a4;border-radius:13px;background:linear-gradient(#fff36f,#ffc028 60%,#ff9f20);color:#5d3405;font-weight:1000;font-size:clamp(15px,4vw,22px);font-style:italic;text-shadow:0 1px #fff5af;box-shadow:0 5px 0 #ad5e12, inset 0 2px 0 #fffbd0;transform:skewX(-3deg)}.play small{display:block;font-size:8px;font-style:normal;color:#8b4b08;letter-spacing:1px}.bottom{position:absolute;z-index:5;bottom:0;left:0;right:0;height:68px;padding:6px 6px max(6px,env(safe-area-inset-bottom));background:linear-gradient(#234c78f5,#132c4cf9);border-top:3px solid #74d5ff;display:flex;justify-content:space-around;align-items:center;gap:4px;box-shadow:0 -3px 0 #102844}.nav{min-width:0;flex:1;height:50px;background:transparent;border-radius:9px;color:#d4edff;font-size:9px;font-weight:1000;text-shadow:0 1px 2px #071e39}.nav span{display:block;font-size:23px;line-height:26px;filter:drop-shadow(0 2px 0 #0c2848)}.nav.active{background:linear-gradient(#367fc0,#1b4775);border:2px solid #80dfff;color:#fff;box-shadow:0 2px 0 #0a294a}.pass{position:absolute;z-index:4;bottom:76px;left:9px;width:42%;max-width:230px;height:28px;border-radius:8px;border:2px solid #abdcff;background:linear-gradient(#376ca1,#1a3c67);box-shadow:0 3px 0 #102849;display:flex;align-items:center;gap:6px;padding:3px 7px;font-size:9px;font-weight:1000}.pass .progress{flex:1;height:8px;background:#0f2a4a;border-radius:5px;overflow:hidden}.pass .progress i{display:block;width:36%;height:100%;background:linear-gradient(90deg,#ffe56b,#ffad26)}.panel{position:absolute;z-index:10;inset:8% 5% 9%;border:3px solid #a4eaff;border-radius:20px;background:linear-gradient(160deg,#2f75adf7,#17345bf7);box-shadow:0 8px 0 #0b2744,0 18px 55px #001a3870;padding:16px 13px;display:flex;flex-direction:column;align-items:center;overflow:auto}.panel h2{margin:0 0 4px;text-align:center;font-size:26px;font-weight:1000;font-style:italic;color:#ffe15b;text-shadow:0 3px #7c4725,0 4px #0a2341}.panel p{margin:0 0 15px;font-size:11px;color:#d4f3ff;text-align:center}.close{position:absolute;right:8px;top:8px;width:33px;height:33px;border-radius:9px;background:linear-gradient(#ff8475,#d93b4e);border:2px solid #ffd1c4;box-shadow:0 3px #862c39;font-weight:1000}.cards{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:9px}.heroCard{border:2px solid #83dfff;border-radius:12px;padding:7px 4px;background:linear-gradient(#3e7fb2,#1a436e);text-align:center;box-shadow:0 3px #0d2948;min-width:0}.heroCard.chosen{border-color:#fff074;background:linear-gradient(#578dba,#315377);box-shadow:0 3px #8c5b24,0 0 0 2px #fff27c70}.portrait{height:82px;position:relative;display:grid;place-items:center;margin-bottom:5px}.portrait canvas{width:100%;height:100%;display:block}.heroCard b{font-size:11px;display:block}.heroCard small{font-size:9px;color:#cceeff}.widebtn{width:100%;padding:12px 8px;margin-top:11px;border-radius:11px;background:linear-gradient(#fff17b,#ffbd28);border:2px solid #fff6b1;box-shadow:0 4px #b36617;color:#593405;font-weight:1000;font-size:14px}.shopitem{display:flex;align-items:center;gap:10px;width:100%;padding:11px;margin:5px 0;border:2px solid #80d8fb;border-radius:12px;background:#1a426d}.shopitem .itemicon{font-size:26px}.shopitem div{flex:1}.shopitem b{display:block;font-size:12px}.shopitem small{font-size:10px;color:#c6edff}.shopitem button{padding:7px 10px;border-radius:8px;background:#ffe45c;color:#63400a;font-weight:1000;font-size:10px}.hidden{display:none!important}#battleHud{position:absolute;z-index:5;top:62px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:start;pointer-events:none;text-shadow:0 2px #133}.hudbox{min-width:105px;border:2px solid #d4f7ff;border-radius:10px;background:#17385ee8;padding:6px 8px;font-size:11px;font-weight:1000}.bar{height:8px;border-radius:6px;background:#243a4b;overflow:hidden;margin-top:4px}.bar i{display:block;width:100%;height:100%;background:linear-gradient(#a4ff73,#40cb4d)}#controls{position:absolute;z-index:6;bottom:80px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:end;pointer-events:none}#stick{width:105px;height:105px;border:3px solid #d6f5ff94;background:#18395b66;border-radius:50%;position:relative;pointer-events:auto;touch-action:none;box-shadow:inset 0 0 0 7px #fff1}#nub{position:absolute;left:28px;top:28px;width:43px;height:43px;border:3px solid white;background:linear-gradient(#faffff,#9cc9e8);box-shadow:0 4px 0 #122c4b;border-radius:50%}#actions{display:flex;align-items:end;gap:10px;pointer-events:auto}#attack,#super{border:3px solid #fff;border-radius:50%;font-size:11px;font-weight:1000;box-shadow:0 5px 0 #183453,inset 0 -4px #0002;text-shadow:0 2px #421b18}#attack{width:78px;height:78px;background:radial-gradient(#ffbf65,#fa4b51)}#super{width:60px;height:60px;background:radial-gradient(#ffffa2,#ffa51e);margin-bottom:3px;opacity:.7;color:#663d04;text-shadow:none}#super.ready{opacity:1;box-shadow:0 5px #9e5a12,0 0 22px #ffe859}.toast{position:absolute;z-index:20;top:45%;left:50%;transform:translate(-50%,-50%);background:#17375cf5;border:2px solid #ffe76a;border-radius:12px;padding:15px 18px;font-weight:1000;text-align:center;box-shadow:0 5px #102640;max-width:85%;font-size:13px}.result{position:absolute;z-index:12;inset:0;background:#06203bbb;display:flex;align-items:center;justify-content:center;padding:20px}.resultbox{width:min(330px,100%);padding:22px;text-align:center;border:3px solid #fff075;border-radius:20px;background:linear-gradient(#3978b2,#1a355a);box-shadow:0 7px #0c2540}.resultbox h2{font-size:31px;color:#ffe569;margin:0;text-shadow:0 3px #8c4c22}.resultbox p{font-size:12px;color:#e1f7ff}.smallnote{font-size:9px;color:#c3e9ff;margin-top:8px;text-align:center}@media(min-width:720px){.panel{left:20%;right:20%;}.brand{top:5%}.side{left:calc(50% - 370px)}.rightside{right:calc(50% - 370px)}.event{left:calc(50% - 350px);right:calc(50% - 350px);bottom:85px}.bottom{padding-left:calc(50% - 350px);padding-right:calc(50% - 350px)}.pass{left:calc(50% - 350px)}}@media(max-height:640px){.brand{top:8%}.brand b{font-size:29px}.brand small{display:none}.side,.rightside{top:25%;gap:5px}.side button,.rightside button{min-height:43px}.side button span,.rightside button span{font-size:19px;line-height:21px}.event{bottom:73px}.pass{bottom:70px}.bottom{height:60px}.panel{inset:5% 5% 8%;padding:10px}.portrait{height:55px}}
+
+/* landscape-first controls */
+#screenBtn{position:absolute;z-index:30;right:8px;bottom:8px;width:42px;height:38px;border:2px solid #c7f4ff;border-radius:10px;background:#173c65eF;box-shadow:0 3px #0b243f;font-size:19px}
+#rotateHint{display:none;position:absolute;z-index:50;inset:0;background:linear-gradient(145deg,#0b4778f5,#112544f7);align-items:center;justify-content:center;text-align:center;padding:24px}
+#rotateHint .rhbox{max-width:360px}#rotateHint .phone{font-size:64px;display:block;animation:turnphone 1.8s infinite ease-in-out}
+@keyframes turnphone{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
+#register{position:absolute;z-index:60;inset:0;display:flex;align-items:center;justify-content:center;padding:14px;background:#061c36c9;backdrop-filter:blur(7px)}
+#register .regbox{width:min(420px,95vw);padding:22px 18px;border:3px solid #a4eaff;border-radius:20px;background:linear-gradient(150deg,#347eb6,#17365d);box-shadow:0 8px #0b2744;text-align:center}
+#register h2{margin:0 0 6px;color:#ffe45b;font-size:clamp(24px,4vw,36px);font-weight:1000;font-style:italic;text-shadow:0 3px #7b4427}
+#register p{font-size:12px;color:#e0f7ff;margin:0 0 14px}#register input{width:100%;margin:5px 0;padding:12px;border:2px solid #8adfff;border-radius:10px;background:#102e50;color:white;font:700 16px system-ui;outline:none}
+#register .fine{font-size:10px;color:#c6e9ff;margin-top:10px}
+@media (orientation:portrait){#rotateHint{display:flex}#screenBtn{bottom:8px}}
+@media (orientation:landscape){.brand{top:6%;left:15%;right:15%}.brand b{font-size:clamp(25px,5vw,43px)}.side{top:26%;gap:5px}.rightside{top:26%;gap:5px}.side button,.rightside button{width:56px;min-height:43px;font-size:8px}.side button span,.rightside button span{font-size:19px;line-height:21px}.bottom{height:54px;padding:3px 6px}.nav{height:42px;font-size:8px}.nav span{font-size:19px;line-height:21px}.event{bottom:62px;left:74px;right:74px}.pass{bottom:61px;left:8px;width:29%;height:24px}#controls{bottom:12px}#stick{width:88px;height:88px}#nub{left:22px;top:22px;width:38px;height:38px}#actions{gap:7px}#attack{width:68px;height:68px}#super{width:52px;height:52px}.panel{inset:5% 12% 6%;padding:12px}.panel h2{font-size:22px}.portrait{height:58px}}
+</style>
+</head><body><div id="app"><div id="three"></div><div class="shade" id="shade"></div>
+<div id="rotateHint"><div class="rhbox"><span class="phone">📱</span><h2>ПОВЕРНИ ТЕЛЕФОН</h2><p>STAR CLASH лучше играть в альбомном режиме.</p><button class="widebtn" id="rotateTry">Я ПОВЕРНУЛ(А) ТЕЛЕФОН</button><button class="widebtn" id="rotateAnyway" style="background:linear-gradient(#e8f8ff,#aadfff);color:#173b60">ПРОДОЛЖИТЬ ТАК</button></div></div>
+<button id="screenBtn" aria-label="Полный экран">⛶</button>
+<div id="register"><div class="regbox"><h2>STAR CLASH</h2><p>Создай профиль игрока</p><form id="regForm"><input id="regName" maxlength="16" autocomplete="nickname" placeholder="Имя игрока" required><input id="regPass" type="password" minlength="6" autocomplete="new-password" placeholder="Пароль от 6 символов" required><button class="widebtn" type="submit">СОЗДАТЬ ПРОФИЛЬ ▶</button></form><button id="authToggle" type="button" style="margin-top:10px;background:#1b456f;border:1px solid #9de8ff;border-radius:9px;padding:9px;width:100%;font-weight:800">Уже есть аккаунт? Войти</button><div class="fine">Аккаунт STAR CLASH через Firebase. Нужен интернет для регистрации и входа.</div></div></div>
+<div class="top" id="topbar"><button class="profile" id="profile"><div class="avatar">😎</div><div class="ptext"><strong id="username">ИГРОК 0001</strong><small>🏆 <span id="trophies">45</span> · УРОВЕНЬ 3</small></div></button><div class="currency"><button class="wallet" id="coins"><span class="coin">●</span><span id="coinCount">168</span><i class="plus">+</i></button><button class="wallet" id="gems"><i class="gem"></i><span id="gemCount">20</span><i class="plus">+</i></button></div></div>
+<div class="brand" id="brand"><b>STAR <span>CLASH</span></b><small>⚡ СТАНЬ ЛЕГЕНДОЙ АРЕНЫ ⚡</small></div>
+<div class="side" id="side"><button data-panel="fighters"><span>🦸</span>БОЙЦЫ</button><button data-panel="shop"><span>🛒</span>МАГАЗИН</button><button data-panel="quests"><span>🎯</span>ЗАДАНИЯ</button><button data-panel="leaderboard"><span>🏆</span>ТОП</button></div><div class="rightside" id="rightside"><button data-panel="friends"><span>👥</span>ДРУЗЬЯ</button><button data-panel="club"><span>🛡️</span>КЛУБ</button><button data-panel="settings"><span>⚙️</span>НАСТРОЙКИ</button></div>
+<div class="pass" id="pass"><span>⭐ STAR PASS</span><div class="progress"><i></i></div><span>33/100</span></div>
+<div class="event" id="event"><div class="eventbox"><div class="eyebrow">НОВОЕ СОБЫТИЕ</div><strong>💎 Кристальная битва</strong><small>Собирай энергию и побеждай!</small></div><button class="play" id="play">ИГРАТЬ ▶<small>СОЛО · БОТЫ</small></button></div>
+<div class="bottom" id="bottom"><button class="nav active" data-nav="home"><span>🏠</span>ГЛАВНАЯ</button><button class="nav" data-panel="fighters"><span>🦸</span>БОЙЦЫ</button><button class="nav" data-panel="shop"><span>🛒</span>МАГАЗИН</button><button class="nav" data-panel="quests"><span>🎟️</span>STAR PASS</button><button class="nav" data-panel="friends"><span>👥</span>ДРУЗЬЯ</button></div>
+<div class="panel hidden" id="panel"><button class="close" id="close">✕</button><h2 id="panelTitle">БОЙЦЫ</h2><p id="panelDesc">Выбери героя для следующей битвы</p><div id="panelContent" style="width:100%"></div></div>
+<div id="battleHud" class="hidden"><div class="hudbox"><span id="heroHud">ИСКРА</span><div class="bar"><i id="hpfill"></i></div><small>❤️ <span id="hpText">100</span></small></div><div class="hudbox" style="text-align:right">🏆 <span id="score">0</span><br><small id="enemies">БОТЫ: 5</small></div></div>
+<div id="controls" class="hidden"><div id="stick"><div id="nub"></div></div><div id="actions"><button id="super">⚡<br>СУПЕР</button><button id="attack">🔥<br>АТАКА</button></div></div>
+<div class="result hidden" id="result"><div class="resultbox"><h2 id="resultTitle">ПОБЕДА!</h2><p id="resultText">Награда: +8 монет и +2 самоцвета</p><button class="widebtn" id="again">ЕЩЁ РАЗ ▶</button><button class="widebtn" id="toMenu" style="background:linear-gradient(#e8f8ff,#aadfff);color:#173b60">В МЕНЮ</button></div></div><div class="toast hidden" id="toast"></div>
+</div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+(()=>{'use strict';const $=s=>document.querySelector(s);const app=$('#app'),host=$('#three');let scene,camera,renderer,clock,world,heroGroup,player=null,bots=[],shots=[],fx=[],mode='menu',selected=0,coins=168,gems=20,trophies=45,score=0,superCharge=0,fireHeld=false,soundOn=true,audio=null,joy={x:0,y:0},last=0,frame=0;
+const heroes=[{name:'РОККО',role:'СТРЕЛОК',hp:100,speed:5.5,damage:18,color:0x8d48e8,skin:0xffc18d,hair:0x5c267c,weapon:0x45d8fa,ability:'ВИХРЬ ИСКР'},{name:'БРУТ',role:'ТЯЖЁЛЫЙ',hp:155,speed:4.0,damage:27,color:0xf15a4a,skin:0xd9905e,hair:0x492b35,weapon:0xffd34e,ability:'УДАР ГРОМА'},{name:'ПИКСЕЛЬ',role:'СКОРОСТЬ',hp:85,speed:6.5,damage:14,color:0x26c9e5,skin:0xffd2a5,hair:0x173d7d,weapon:0xb8ff5c,ability:'НЕОНОВЫЙ РЫВОК'}];
+function init(){scene=new THREE.Scene();scene.background=new THREE.Color(0x29bde9);scene.fog=new THREE.Fog(0x29bde9,30,85);camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,.1,150);renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;host.appendChild(renderer.domElement);clock=new THREE.Clock();scene.add(new THREE.HemisphereLight(0xcaf7ff,0x805336,2.1));let sun=new THREE.DirectionalLight(0xfff2cf,3.2);sun.position.set(-9,20,11);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);world=new THREE.Group();scene.add(world);buildMenuWorld();window.addEventListener('resize',resize);animate()}
+function mat(color,rough=.72,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal})}function mesh(g,m,x,y,z,sx=1,sy=1,sz=1){let o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.receiveShadow=true;return o}function box(w,h,d,m,x,y,z){return mesh(new THREE.BoxGeometry(w,h,d),m,x,y,z)}function sphere(r,m,x,y,z,sx=1,sy=1,sz=1){return mesh(new THREE.SphereGeometry(r,20,16),m,x,y,z,sx,sy,sz)}function cyl(rt,rb,h,m,x,y,z,n=16){return mesh(new THREE.CylinderGeometry(rt,rb,h,n),m,x,y,z)}
+function clearWorld(){while(world.children.length){let o=world.children[0];world.remove(o);o.traverse?.(n=>{n.geometry?.dispose?.();if(n.material&&!Array.isArray(n.material))n.material.dispose?.()})}heroGroup=null;bots=[];shots=[];fx=[]}
+function makeHero(idx,isBot=false){let f=heroes[idx%heroes.length],g=new THREE.Group();g.userData={f,idx,isBot};let body=mat(f.color),skin=mat(f.skin),hair=mat(f.hair),dark=mat(0x21334a),white=mat(0xfffaf1),black=mat(0x17243a),weapon=mat(f.weapon,.35,.12),gold=mat(0xffd34f,.35,.25);g.add(sphere(.56,body,0,.78,0,.82,1.06,.62));g.add(sphere(.49,skin,0,1.62,.03,1,1.02,.83));
+// brows, eyes and smirk facing +Z
+for(let sx of [-1,1]){g.add(sphere(.105,white,sx*.19,1.72,.423,.9,1.1,.48));g.add(sphere(.052,black,sx*.17,1.71,.467,.8,1,.6));g.add(sphere(.13,skin,sx*.41,1.53,.28,.75,.5,.5));}
+g.add(box(.3,.055,.05,dark,0,1.47,.43));g.add(sphere(.18,hair,0,2.02,0,1.25,.55,.86));if(idx===0){for(let i=0;i<4;i++){let tuft=sphere(.23,hair,-.28+i*.19,2.19,.08,.8,1.1,.8);g.add(tuft)}g.add(box(.82,.14,.12,gold,0,1.98,.39))}else if(idx===1){g.add(sphere(.23,hair,-.16,2.18,0,1.5,.75,1));g.add(box(.78,.13,.15,gold,0,2.02,.4))}else{g.add(sphere(.15,hair,0,2.2,0,1.5,.65,.9));g.add(box(.95,.18,.12,weapon,0,1.99,.38));g.add(sphere(.12,mat(0xffffff,.2),0,2,.46,.8,.8,.3))}
+// chunky arms and gloves
+for(let sx of [-1,1]){let arm=sphere(.2,body,sx*.58,1.03,.02,.85,1.2,.9);arm.rotation.z=sx*.4;g.add(arm);g.add(sphere(.2,skin,sx*.68,.83,.22,1, .82,1));let leg=box(.24,.43,.32,dark,sx*.22,.28,0);leg.rotation.z=sx*.08;g.add(leg);g.add(box(.36,.17,.46,weapon,sx*.24,.1,.12))}
+// oversized stylized blaster over shoulder
+let gun=new THREE.Group();gun.position.set(.48,1.05,.3);gun.rotation.x=-.15;gun.rotation.z=-.15;gun.add(box(.25,.28,.63,dark,0,0,.16));gun.add(box(.29,.24,.5,weapon,0,.05,.35));gun.add(cyl(.105,.105,.38,mat(0x25394f),0,.03,.69,12).rotateX(Math.PI/2));gun.add(box(.32,.09,.13,gold,0,.18,.33));g.add(gun);g.userData.gun=gun;
+// backpack and belt details
+g.add(box(.47,.43,.25,dark,-.39,.92,-.22));g.add(box(.62,.11,.54,gold,0,.57,.02));g.position.y=.06;return g}
+function tileFloor(size=48){let floor=box(size,.3,size,mat(0xc98a50),0,-.25,0);floor.receiveShadow=true;world.add(floor);let grid=new THREE.GridHelper(size,32,0xb27340,0xd39b60);grid.position.y=-.085;world.add(grid)}
+function crate(x,z){let g=new THREE.Group(),wood=mat(0x9e5c2e),edge=mat(0xd7964d),dark=mat(0x66371f);g.add(box(1.65,1.05,1.5,wood,0,.53,0));for(let y of [.08,.94])g.add(box(1.76,.11,1.6,edge,0,y,0));g.add(box(.14,1.0,1.58,edge,0,.53,0));g.add(box(1.68,.13,1.58,dark,0,.53,0));g.position.set(x,0,z);world.add(g)}function bush(x,z){let g=new THREE.Group(),dark=mat(0x387c36),greens=[mat(0x45a946),mat(0x60c64b),mat(0x2c913f)];g.add(cyl(.45,.58,.45,dark,0,.22,0));for(let i=0;i<8;i++){let a=i*Math.PI*2/8,r=.42+Math.random()*.15;g.add(sphere(.42,greens[i%3],Math.cos(a)*r,.48+Math.random()*.18,Math.sin(a)*r,.95,.8,.8))}g.position.set(x,0,z);world.add(g)}
+function buildMenuWorld(){clearWorld();scene.background.set(0x20bdf1);scene.fog.color.set(0x20bdf1);tileFloor(45);let platform=cyl(3.6,4.3,.36,mat(0x315985,.4,.25),0,.02,0,48);world.add(platform);world.add(cyl(3.3,3.8,.18,mat(0x54c8e9,.3,.12),0,.25,0,48));for(let i=0;i<22;i++){let angle=i/22*Math.PI*2,r=12+Math.random()*8;let p=sphere(.18+Math.random()*.3,mat([0xffdf4e,0x58e7ff,0xff6488][i%3],.25),Math.cos(angle)*r,Math.random()*5+1,Math.sin(angle)*r);p.userData.float=Math.random()*5;world.add(p)}heroGroup=makeHero(selected);heroGroup.position.set(0,.35,0);heroGroup.scale.setScalar(1.48);world.add(heroGroup);camera.position.set(0,4.3,10.8);camera.lookAt(0,1.6,0);}
+function buildBattle(){clearWorld();mode='battle';scene.background.set(0xe8b176);scene.fog.color.set(0xe8b176);tileFloor(38);let sand=mat(0xd7a064);for(let i=0;i<38;i++){let x=(Math.random()-.5)*34,z=(Math.random()-.5)*34;if(Math.abs(x)<3&&Math.abs(z)<3)continue;let pick=Math.random();if(pick<.42)crate(x,z);else if(pick<.84)bush(x,z);else{let rock=sphere(.8,mat(0x9b8d7b),x,.45,z,1.2,.65,1);world.add(rock)}}let fenceM=mat(0x7b4a2a);for(let n=-17;n<=17;n+=1.3){for(let side of [-1,1]){if(Math.random()<.45)continue;world.add(cyl(.07,.09,.7,fenceM,n,.35,side*17,8));}}player={x:0,z:0,hp:heroes[selected].hp,max:heroes[selected].hp,fire:0,group:makeHero(selected),damage:heroes[selected].damage,speed:heroes[selected].speed};player.group.position.set(0,0,0);world.add(player.group);for(let i=0;i<5;i++){let idx=(i+1)%3,b={x:(Math.random()-.5)*27,z:(Math.random()-.5)*27,hp:85,max:85,fire:40+Math.random()*70,speed:2.1+Math.random(),damage:8,group:makeHero(idx,true),phase:Math.random()*6};if(Math.abs(b.x)<5&&Math.abs(b.z)<5)b.z+=8;b.group.position.set(b.x,0,b.z);world.add(b.group);bots.push(b)}camera.position.set(0,22,22);camera.lookAt(0,0,0);$('#shade').classList.add('hidden');$('#topbar').classList.add('hidden');$('#brand').classList.add('hidden');$('#side').classList.add('hidden');$('#rightside').classList.add('hidden');$('#pass').classList.add('hidden');$('#event').classList.add('hidden');$('#bottom').classList.add('hidden');$('#battleHud').classList.remove('hidden');$('#controls').classList.remove('hidden');$('#heroHud').textContent=heroes[selected].name;$('#hpText').textContent=player.hp;$('#score').textContent='0';$('#enemies').textContent='БОТЫ: 5';shots=[];fx=[];score=0;superCharge=0;}
+function returnMenu(){mode='menu';buildMenuWorld();$('#shade').classList.remove('hidden');$('#topbar').classList.remove('hidden');$('#brand').classList.remove('hidden');$('#side').classList.remove('hidden');$('#rightside').classList.remove('hidden');$('#pass').classList.remove('hidden');$('#event').classList.remove('hidden');$('#bottom').classList.remove('hidden');$('#battleHud').classList.add('hidden');$('#controls').classList.add('hidden');$('#result').classList.add('hidden')}
+function sound(f=500,d=.08,type='sine'){if(!soundOn)return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();let o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.045,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d)}catch{}}
+function toast(text){let t=$('#toast');t.textContent=text;t.classList.remove('hidden');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add('hidden'),2000)}function makePanel(kind){let title={fighters:'ВЫБЕРИ БОЙЦА',shop:'МАГАЗИН',quests:'STAR PASS',friends:'ДРУЗЬЯ',club:'КЛУБ',settings:'НАСТРОЙКИ',leaderboard:'ТОП ИГРОКОВ'}[kind]||kind.toUpperCase();$('#panelTitle').textContent=title;let desc='Открой новые возможности на арене';let html='';if(kind==='leaderboard'){desc='Общий рейтинг игроков Firebase (если подключение доступно)';let rows=window.scOnlineLeaderboard||JSON.parse(localStorage.getItem('sc_leaderboard')||'[]');let me=localStorage.getItem('sc_name')||'ИГРОК';rows.sort((a,b)=>b.trophies-a.trophies||b.wins-a.wins);if(!rows.some(r=>r.name===me))rows.push({name:me,trophies,wins:0});rows.sort((a,b)=>b.trophies-a.trophies);html=rows.slice(0,10).map((r,i)=>`<div class="shopitem"><span class="itemicon">${['🥇','🥈','🥉'][i]||'🏅'}</span><div><b>${i+1}. ${String(r.name).replace(/[<>]/g,'')}</b><small>🏆 ${r.trophies} трофеев · побед: ${r.wins||0}</small></div></div>`).join('')+'<div class="smallnote">Рейтинг обновляется из Firebase, если база и правила настроены.</div>';}else if(kind==='fighters'){desc='Каждый герой — своя тактика и суперспособность';html='<div class="cards">'+heroes.map((h,i)=>`<button class="heroCard ${selected===i?'chosen':''}" data-hero="${i}"><div class="portrait" id="portrait${i}"></div><b>${h.name}</b><small>${h.role}<br>❤️ ${h.hp}</small></button>`).join('')+'</div><button class="widebtn" id="chooseHero">ВЫБРАТЬ БОЙЦА ✓</button>';}else if(kind==='shop'){desc='Внутриигровые награды STAR CLASH';html=`<div class="shopitem"><span class="itemicon">🪙</span><div><b>Пачка монет</b><small>+100 монет · виртуальные</small></div><button data-buy="coins">БЕСПЛАТНО</button></div><div class="shopitem"><span class="itemicon">💎</span><div><b>Самоцветы</b><small>+5 самоцветов · награда</small></div><button data-buy="gems">ЗАБРАТЬ</button></div><div class="shopitem"><span class="itemicon">🎁</span><div><b>Ежедневный подарок</b><small>Случайная награда</small></div><button data-buy="daily">ОТКРЫТЬ</button></div><div class="shopitem"><span class="itemicon">💳</span><div><b>ДОНАТ · купить самоцветы</b><small>Пакеты за реальные деньги — перевод вручную</small></div><button id="donateOpen">ОТКРЫТЬ</button></div><div class="smallnote">Покупки за реальные деньги не обрабатываются автоматически. Не отправляй деньги, пока не согласуешь способ оплаты и цену.</div>`;}else if(kind==='donate'){desc='Выбери пакет и сначала согласуй оплату. Игра не умеет проверять переводы автоматически.';html=`<div class="shopitem"><span class="itemicon">💎</span><div><b>Малый пакет · 10 самоцветов</b><small>29 ₽ · после подтверждения оплаты</small></div><button data-pack="10" data-price="29">ВЫБРАТЬ</button></div><div class="shopitem"><span class="itemicon">💎💎</span><div><b>Средний пакет · 50 самоцветов</b><small>99 ₽ · после подтверждения оплаты</small></div><button data-pack="50" data-price="99">ВЫБРАТЬ</button></div><div class="shopitem"><span class="itemicon">💎✨</span><div><b>Большой пакет · 120 самоцветов</b><small>199 ₽ · после подтверждения оплаты</small></div><button data-pack="120" data-price="199">ВЫБРАТЬ</button></div><div class="shopitem"><span class="itemicon">📱</span><div><b>Номер для связи/перевода</b><small id="donatePhone">89950949458</small></div><button id="copyDonate">КОПИРОВАТЬ</button></div><div class="smallnote">Важно: это только инструкция, не платёжная система. Не вводи данные карты в игре. После перевода свяжись с владельцем и сообщи ник, пакет и сумму. Самоцветы не начисляются автоматически.</div>`;}else if(kind==='quests'){desc='Выполняй задания и забирай награды';html='<div class="shopitem"><span class="itemicon">🎯</span><div><b>Сыграй один бой</b><small>Награда: 8 монет</small></div><button data-buy="coins">ЗАБРАТЬ</button></div><div class="shopitem"><span class="itemicon">💎</span><div><b>Коллекционер</b><small>Награда: 2 самоцвета</small></div><button data-buy="gems">ЗАБРАТЬ</button></div>';}else if(kind==='settings'){desc='Настройки сохраняются на устройстве';html=`<div class="shopitem"><span class="itemicon">🔊</span><div><b>Звуковые эффекты</b><small>Выстрелы и события</small></div><button id="soundBtn">${soundOn?'ВКЛ':'ВЫКЛ'}</button></div><div class="shopitem"><span class="itemicon">👤</span><div><b>Имя игрока</b><small id="settingName">${localStorage.getItem('sc_name')||'ИГРОК 0001'}</small></div><button id="rename">ИЗМЕНИТЬ</button></div>`;}else if(kind==='friends'){desc='Локальная демоверсия';html='<div class="shopitem"><span class="itemicon">👥</span><div><b>Список друзей</b><small>Для приглашений в онлайн нужен сервер</small></div></div><button class="widebtn" id="invite">КАК ИГРАТЬ С ДРУГОМ?</button>';}else{desc='Объединяйся с друзьями';html='<div class="shopitem"><span class="itemicon">🛡️</span><div><b>Клуб «Звёздные»</b><small>Пока доступен просмотр макета</small></div></div><button class="widebtn" id="clubInfo">СОЗДАТЬ КЛУБ</button>'}$('#panelDesc').textContent=desc;$('#panelContent').innerHTML=html;$('#panel').classList.remove('hidden');if(kind==='fighters'){heroes.forEach((h,i)=>{let el=$('#portrait'+i);let ren=new THREE.WebGLRenderer({alpha:true,antialias:true});ren.setPixelRatio(1);ren.setSize(90,82);ren.setClearColor(0,0);el.appendChild(ren.domElement);let sc=new THREE.Scene();sc.add(new THREE.HemisphereLight(0xffffff,0x5a6789,2));let li=new THREE.DirectionalLight(0xffffff,2);li.position.set(2,5,5);sc.add(li);let obj=makeHero(i);obj.scale.setScalar(.72);sc.add(obj);let cam=new THREE.PerspectiveCamera(35,90/82,.1,100);cam.position.set(0,2.2,6.4);cam.lookAt(0,1,0);ren.render(sc,cam);el._dispose=()=>{ren.dispose();obj.traverse(o=>o.geometry?.dispose())}});document.querySelectorAll('[data-hero]').forEach(b=>b.onclick=()=>{selected=+b.dataset.hero;document.querySelectorAll('[data-hero]').forEach(x=>x.classList.toggle('chosen',x===b));sound(620,.05)});$('#chooseHero').onclick=()=>{save();$('#panel').classList.add('hidden');toast(heroes[selected].name+' выбран!');buildMenuWorld()}}document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{let k=b.dataset.buy;if(k==='coins'){coins+=100;toast('+100 монет!')}else if(k==='gems'){gems+=5;toast('+5 самоцветов!')}else{coins+=50;gems+=2;toast('Ежедневная награда получена!')}save();b.textContent='ПОЛУЧЕНО';b.disabled=true});$('#donateOpen')?.addEventListener('click',()=>makePanel('donate'));document.querySelectorAll('[data-pack]').forEach(b=>b.onclick=()=>{let pack=b.dataset.pack,price=b.dataset.price;let msg=`Заявка на донат STAR CLASH: ${pack} самоцветов за ${price} ₽. Ник: ${localStorage.getItem('sc_name')||'не указан'}. Номер для связи/перевода: 89950949458. Оплату и начисление нужно подтвердить вручную.`;try{navigator.clipboard?.writeText(msg)}catch(e){}toast(`Выбран пакет ${pack} 💎 за ${price} ₽. Условия оплаты согласуй с владельцем.`)});$('#copyDonate')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('89950949458');toast('Номер скопирован')}catch(e){toast('Номер: 89950949458')}});$('#soundBtn')?.addEventListener('click',()=>{soundOn=!soundOn;$('#soundBtn').textContent=soundOn?'ВКЛ':'ВЫКЛ'});$('#rename')?.addEventListener('click',()=>{let name=prompt('Имя игрока',localStorage.getItem('sc_name')||'ИГРОК 0001');if(name&&name.trim()){localStorage.setItem('sc_name',name.trim().slice(0,16));$('#username').textContent=name.trim().slice(0,16);$('#settingName').textContent=name.trim().slice(0,16)}});$('#invite')?.addEventListener('click',()=>toast('Сетевая игра появится после подключения сервера'));$('#clubInfo')?.addEventListener('click',()=>toast('Клубы пока в разработке'))}
+function save(){localStorage.setItem('sc_coins',coins);localStorage.setItem('sc_gems',gems);localStorage.setItem('sc_trophies',trophies);$('#coinCount').textContent=coins;$('#gemCount').textContent=gems;$('#trophies').textContent=trophies}function load(){coins=+(localStorage.getItem('sc_coins')||168);gems=+(localStorage.getItem('sc_gems')||20);trophies=+(localStorage.getItem('sc_trophies')||45);$('#coinCount').textContent=coins;$('#gemCount').textContent=gems;$('#trophies').textContent=trophies;$('#username').textContent=localStorage.getItem('sc_name')||'ИГРОК 0001'}
+$('#close').onclick=()=>$('#panel').classList.add('hidden');document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>makePanel(b.dataset.panel));$('#coins').onclick=$('#gems').onclick=()=>makePanel('shop');$('#profile').onclick=()=>makePanel('settings');document.querySelectorAll('[data-nav="home"]').forEach(b=>b.onclick=()=>toast('Ты уже на главной!'));$('#play').onclick=()=>{buildBattle();last=performance.now();sound(700,.12,'triangle')};$('#again').onclick=()=>{$('#result').classList.add('hidden');buildBattle();last=performance.now()};$('#toMenu').onclick=returnMenu;
+const stick=$('#stick'),nub=$('#nub');function setJoy(e){let r=stick.getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,d=Math.hypot(dx,dy),m=Math.min(34,d);joy={x:d?dx/d*m/34:0,y:d?dy/d*m/34:0};nub.style.left=(28+joy.x*28)+'px';nub.style.top=(28+joy.y*28)+'px'}function resetJoy(){joy={x:0,y:0};nub.style.left='28px';nub.style.top='28px'}stick.onpointerdown=e=>{stick.setPointerCapture(e.pointerId);setJoy(e)};stick.onpointermove=e=>{if(e.buttons||e.pressure)setJoy(e)};stick.onpointerup=stick.onpointercancel=resetJoy;$('#attack').onpointerdown=e=>{e.preventDefault();fireHeld=true;fire()};$('#attack').onpointerup=$('#attack').onpointercancel=()=>fireHeld=false;$('#super').onpointerdown=e=>{e.preventDefault();if(superCharge<100){toast('Супер ещё заряжается!');return}superCharge=0;for(let i=0;i<12;i++){let a=i/12*Math.PI*2;addShot({x:player.x,z:player.z,vx:Math.sin(a)*12,vz:Math.cos(a)*12,life:1.4,damage:35,hero:true})}sound(900,.22,'sawtooth')};function fire(){if(mode!=='battle'||player.fire>0)return;let b=bots.filter(q=>q.hp>0).sort((a,b)=>Math.hypot(a.x-player.x,a.z-player.z)-Math.hypot(b.x-player.x,b.z-player.z))[0];let dx=0,dz=1;if(b){let d=Math.hypot(b.x-player.x,b.z-player.z)||1;dx=(b.x-player.x)/d;dz=(b.z-player.z)/d;player.group.rotation.y=Math.atan2(dx,dz)}else{dx=Math.sin(player.group.rotation.y);dz=Math.cos(player.group.rotation.y)}for(let j=-1;j<=1;j++){let spread=j*.1;addShot({x:player.x,z:player.z,vx:(dx+spread)*11,vz:(dz-spread)*11,life:1.2,damage:player.damage,hero:true})}player.fire=.32;sound(390,.045,'square')};
+function resize(){if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=innerHeight>innerWidth?48:42;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}function dist(a,b){return Math.hypot(a.x-b.x,a.z-b.z)}function addShot(s){s.obj=sphere(s.hero?.17:.13,mat(s.hero?0x8fffff:0xff5268,.25,.2),s.x,.95,s.z);world.add(s.obj);shots.push(s)}function spawnFX(x,z,color){for(let i=0;i<5;i++){let o=sphere(.09,mat(color),x,.4+Math.random(),z);world.add(o);fx.push({obj:o,vx:(Math.random()-.5)*5,vy:2+Math.random()*3,vz:(Math.random()-.5)*5,life:.45})}}
+function update(dt){frame+=dt;if(mode==='menu'){if(heroGroup){heroGroup.position.y=.36+Math.sin(frame*1.7)*.12;heroGroup.rotation.y=Math.sin(frame*.35)*.28;if(heroGroup.userData.gun)heroGroup.userData.gun.rotation.z=-.15+Math.sin(frame*2)*.035}world.children.forEach(o=>{if(o.userData.float)o.position.y=2+Math.sin(frame*1.2+o.userData.float)*.65});return}if(mode!=='battle'||!player)return;player.fire=Math.max(0,player.fire-dt);let ax=joy.x,az=joy.y;let len=Math.hypot(ax,az);if(len>.12){player.x+=ax/Math.max(1,len)*player.speed*dt;player.z+=az/Math.max(1,len)*player.speed*dt;player.group.rotation.y=Math.atan2(ax,az)}player.x=THREE.MathUtils.clamp(player.x,-17,17);player.z=THREE.MathUtils.clamp(player.z,-17,17);player.group.position.set(player.x,Math.abs(Math.sin(frame*8))*.06,player.z);player.group.rotation.y+=0; if(fireHeld&&player.fire<=0)fire();for(let b of bots){if(b.hp<=0)continue;b.fire-=dt;let d=dist(b,player),dx=(player.x-b.x)/(d||1),dz=(player.z-b.z)/(d||1);b.phase+=dt;if(d>5){b.x+=dx*b.speed*dt;b.z+=dz*b.speed*dt}else{b.x+=-dz*Math.sin(b.phase)*b.speed*.6*dt;b.z+=dx*Math.cos(b.phase)*b.speed*.6*dt}b.x=THREE.MathUtils.clamp(b.x,-17,17);b.z=THREE.MathUtils.clamp(b.z,-17,17);b.group.position.set(b.x,Math.abs(Math.sin(frame*7+b.phase))*.05,b.z);b.group.rotation.y=Math.atan2(player.x-b.x,player.z-b.z);if(d<22&&b.fire<=0){addShot({x:b.x,z:b.z,vx:dx*9,vz:dz*9,life:2.3,damage:10,hero:false});b.fire=.75+Math.random()*.45;}}
+for(let i=shots.length-1;i>=0;i--){let s=shots[i];s.x+=s.vx*dt;s.z+=s.vz*dt;s.life-=dt;if(s.obj)s.obj.position.set(s.x,.95,s.z);let hit=false;if(s.hero){for(let b of bots){if(b.hp>0&&Math.hypot(s.x-b.x,s.z-b.z)<.85){b.hp-=s.damage;hit=true;superCharge=Math.min(100,superCharge+15);spawnFX(s.x,s.z,0xfff27a);if(b.hp<=0){world.remove(b.group);score++;coins+=2;$('#score').textContent=score;sound(180,.11,'triangle')}break}}}else if(Math.hypot(s.x-player.x,s.z-player.z)<.85){player.hp-=s.damage;hit=true;spawnFX(player.x,player.z,0xff5360);sound(100,.08,'sawtooth')}if(hit||s.life<=0||Math.abs(s.x)>22||Math.abs(s.z)>22){if(s.obj){world.remove(s.obj);s.obj.geometry.dispose();s.obj.material.dispose()}shots.splice(i,1)}}for(let i=fx.length-1;i>=0;i--){let p=fx[i];p.life-=dt;p.obj.position.x+=p.vx*dt;p.obj.position.z+=p.vz*dt;p.obj.position.y+=p.vy*dt;p.vy-=6*dt;if(p.life<=0){world.remove(p.obj);p.obj.geometry.dispose();p.obj.material.dispose();fx.splice(i,1)}}$('#hpText').textContent=Math.max(0,Math.ceil(player.hp));$('#hpfill').style.width=Math.max(0,player.hp/player.max*100)+'%';$('#enemies').textContent='БОТЫ: '+bots.filter(b=>b.hp>0).length;$('#super').classList.toggle('ready',superCharge>=100);camera.position.lerp(new THREE.Vector3(player.x+1,22,player.z+22),.06);camera.lookAt(player.x,0,player.z);if(player.hp<=0)end(false);else if(bots.every(b=>b.hp<=0))end(true)}
+function end(win){if(mode!=='battle')return;mode='result';if(win){coins+=8;gems+=2;trophies+=6}let lb=JSON.parse(localStorage.getItem('sc_leaderboard')||'[]'),nm=localStorage.getItem('sc_name')||'ИГРОК';let rec=lb.find(r=>r.name===nm)||{name:nm,trophies:0,wins:0};rec.trophies=Math.max(rec.trophies,trophies);if(win)rec.wins=(rec.wins||0)+1;if(!lb.includes(rec))lb.push(rec);localStorage.setItem('sc_leaderboard',JSON.stringify(lb.slice(-100)));if(window.scSaveScore)window.scSaveScore({name:nm,trophies:trophies,wins:rec.wins||0});save();$('#resultTitle').textContent=win?'ПОБЕДА!':'НОКАУТ!';$('#resultText').textContent=win?'Арена зачищена! Награда: +8 монет, +2 самоцвета, +6 трофеев.':'Попробуй ещё раз! Тренировка тоже даёт опыт.';$('#result').classList.remove('hidden');$('#controls').classList.add('hidden');sound(win?880:140,.3,'triangle')}
+function animate(){requestAnimationFrame(animate);let dt=Math.min(.035,clock.getDelta());update(dt);if(renderer&&scene&&camera)renderer.render(scene,camera)}
+// Firebase auth handler is installed below. If Firebase scripts fail to load, show a clear message.
+const reg=$('#register'), savedName=localStorage.getItem('sc_name');
+if(savedName)reg.classList.add('hidden');
+$('#regForm').addEventListener('submit',async e=>{e.preventDefault();const n=$('#regName').value.trim(),pw=$('#regPass').value;if(n.length<2){toast('Имя должно содержать минимум 2 символа');return}if(pw.length<6){toast('Пароль должен содержать минимум 6 символов');return}if(typeof window.scFirebaseAuthSubmit==='function'){await window.scFirebaseAuthSubmit(n,pw)}else{toast('Firebase не загрузился. Обнови страницу и проверь интернет.')}});
+$('#screenBtn').addEventListener('click',async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();}else{await document.exitFullscreen()}try{await screen.orientation.lock('landscape')}catch(e){} }catch(e){toast('Нажми меню браузера и выбери «На весь экран»')}});
+$('#rotateTry').onclick=async()=>{try{await screen.orientation.lock('landscape')}catch(e){}if(innerWidth>innerHeight)$('#rotateHint').style.display='none'};
+$('#rotateAnyway').onclick=()=>$('#rotateHint').style.display='none';
+window.addEventListener('resize',()=>{if(innerWidth>innerHeight)$('#rotateHint').style.display='none';else if(!$('#register').classList.contains('hidden')){} });
+load();init();
+})();
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDocs, collection, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAykAf73w5XmO6cfLUBEZWBO4CT4Leyy3Y",
+  authDomain: "star-clash-online.firebaseapp.com",
+  projectId: "star-clash-online",
+  storageBucket: "star-clash-online.firebasestorage.app",
+  messagingSenderId: "1001355900843",
+  appId: "1:1001355900843:web:ed298123593d8213a684ee"
+};
+
+function toastAuth(message) {
+  const el = document.getElementById('toast');
+  if (el) {
+    el.textContent = message;
+    el.classList.remove('hidden');
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.classList.add('hidden'), 3500);
+  } else {
+    alert(message);
+  }
+}
+
+function nameToEmail(name) {
+  const safe = name.trim().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 24);
+  if (safe.length < 2) throw new Error('Имя: минимум 2 английские буквы или цифры.');
+  return safe + '@starclash.player';
+}
+
+function authError(error) {
+  console.error('STAR CLASH Firebase:', error);
+  const errors = {
+    'auth/email-already-in-use': 'Это имя уже занято. Выбери другое или войди в аккаунт.',
+    'auth/invalid-credential': 'Неверное имя или пароль.',
+    'auth/user-not-found': 'Аккаунт не найден. Проверь имя или зарегистрируйся.',
+    'auth/wrong-password': 'Неверный пароль.',
+    'auth/weak-password': 'Пароль должен содержать минимум 6 символов.',
+    'auth/operation-not-allowed': 'В Firebase включи способ входа Email/Password.',
+    'auth/network-request-failed': 'Нет соединения с интернетом.',
+    'auth/too-many-requests': 'Слишком много попыток. Попробуй позже.',
+    'auth/invalid-api-key': 'Неверный ключ Firebase.',
+    'auth/invalid-email': 'Не удалось подготовить имя для входа.'
+  };
+  toastAuth(errors[error.code] || error.message || 'Неизвестная ошибка Firebase.');
+}
+
+try {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let loginMode = false;
+  let busy = false;
+
+  const form = document.getElementById('regForm');
+  const toggle = document.getElementById('authToggle');
+  if (!form) throw new Error('Не найдена форма regForm.');
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      loginMode = !loginMode;
+      const title = document.querySelector('#register h2');
+      const subtitle = document.querySelector('#register p');
+      const submit = document.querySelector('#regForm button[type="submit"]');
+      if (title) title.textContent = loginMode ? 'STAR CLASH — ВХОД' : 'STAR CLASH';
+      if (subtitle) subtitle.textContent = loginMode ? 'Войди в свой аккаунт' : 'Создай профиль игрока';
+      if (submit) submit.textContent = loginMode ? 'ВОЙТИ ▶' : 'СОЗДАТЬ ПРОФИЛЬ ▶';
+      toggle.textContent = loginMode ? 'Нет аккаунта? Регистрация' : 'Уже есть аккаунт? Войти';
+      const password = document.getElementById('regPass');
+      if (password) password.autocomplete = loginMode ? 'current-password' : 'new-password';
+    });
+  }
+
+  window.scFirebaseAuthSubmit = async function(name, password) {
+    if (busy) return;
+    busy = true;
+    try {
+      if (name.trim().length < 2) throw new Error('Имя должно содержать минимум 2 символа.');
+      if (password.length < 6) throw new Error('Пароль должен содержать минимум 6 символов.');
+      const email = nameToEmail(name);
+      let credential;
+      if (loginMode) {
+        credential = await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        credential = await createUserWithEmailAndPassword(auth, email, password);
+        try {
+          await updateProfile(credential.user, { displayName: name.trim().slice(0, 16) });
+        } catch (profileError) {
+          console.error('Не удалось сохранить отображаемое имя:', profileError);
+        }
+      }
+
+      const playerName = (credential.user.displayName || name.trim()).slice(0, 16);
+      localStorage.setItem('sc_name', playerName);
+      const username = document.getElementById('username');
+      if (username) username.textContent = playerName;
+      const register = document.getElementById('register');
+      if (register) register.classList.add('hidden');
+      toastAuth(loginMode ? 'Вход выполнен!' : 'Аккаунт создан!');
+
+      // Сбой Firestore не отменяет успешный вход или регистрацию.
+      try {
+        await setDoc(doc(db, 'players', credential.user.uid), {
+          name: playerName,
+          trophies: 0,
+          wins: 0,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+      } catch (saveError) {
+        console.error('Не удалось сохранить профиль Firestore:', saveError);
+        toastAuth('Аккаунт работает, но рейтинг не сохранён. Проверь правила Firestore.');
+      }
+      if (window.scLoadLeaderboard) await window.scLoadLeaderboard();
+    } catch (error) {
+      authError(error);
+    } finally {
+      busy = false;
+    }
+  };
+
+  window.scSaveScore = async ({ name, trophies, wins }) => {
+    if (!auth.currentUser) return false;
+    try {
+      await setDoc(doc(db, 'players', auth.currentUser.uid), {
+        name: (auth.currentUser.displayName || name || 'Игрок').slice(0, 16),
+        trophies: Math.max(0, Number(trophies) || 0),
+        wins: Math.max(0, Number(wins) || 0),
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+      return true;
+    } catch (error) {
+      console.error('Ошибка сохранения результата:', error);
+      toastAuth('Не удалось сохранить рейтинг. Проверь правила Firestore.');
+      return false;
+    }
+  };
+
+  window.scLoadLeaderboard = async () => {
+    try {
+      const result = await getDocs(query(collection(db, 'players'), orderBy('trophies', 'desc'), limit(10)));
+      window.scOnlineLeaderboard = result.docs.map(item => {
+        const data = item.data();
+        return { name: data.name || 'Игрок', trophies: data.trophies || 0, wins: data.wins || 0 };
+      });
+      return true;
+    } catch (error) {
+      console.error('Ошибка загрузки таблицы лидеров:', error);
+      return false;
+    }
+  };
+
+  onAuthStateChanged(auth, user => {
+    const register = document.getElementById('register');
+    if (user) {
+      const playerName = user.displayName || localStorage.getItem('sc_name') || 'Игрок';
+      localStorage.setItem('sc_name', playerName);
+      const username = document.getElementById('username');
+      if (username) username.textContent = playerName;
+      if (register) register.classList.add('hidden');
+      window.scLoadLeaderboard();
+    } else if (register) {
+      register.classList.remove('hidden');
+    }
+  });
+
+  console.log('STAR CLASH Firebase ready');
+} catch (error) {
+  console.error('Firebase initialization failed:', error);
+  // Если инициализация не удалась, форма всё равно сообщает об ошибке.
+  window.scFirebaseAuthSubmit = async () => toastAuth('Firebase не загрузился. Проверь интернет и настройки Firebase.');
+}
+</script>
+</body></html>
