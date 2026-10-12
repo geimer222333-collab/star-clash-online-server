@@ -79,6 +79,26 @@ button:active{transform:translateY(3px);box-shadow:0 2px 0 #a95a17}
 #homePanel .grid{margin-top:12px}
 @media(max-width:600px){#loadingScreen .loadLogo{font-size:56px}#homePanel{padding:14px}#homePanel .heroRow{gap:7px}#homePanel .heroThumb{width:54px;height:64px}}
 
+
+/* STAR CLASH: animated home menu polish */
+#homePanel{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(180deg,#188fe0 0%,#176bb8 52%,#103b70 100%);border-color:#a9ecff;box-shadow:inset 0 0 0 3px #ffffff16,0 9px 0 #081d38,0 20px 55px #00152d88}
+#homePanel:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,#70e7ff55,transparent 45%),linear-gradient(125deg,transparent 15%,#ffffff0a 48%,transparent 75%);animation:scHomeGlow 5s ease-in-out infinite}
+#homePanel .logo{filter:drop-shadow(0 5px 0 #0a2949);animation:scLogoFloat 3s ease-in-out infinite}
+#homePanel .heroRow{position:relative;isolation:isolate;min-height:150px;padding:12px 8px;overflow:hidden;border:2px solid #8fe6ff;border-radius:18px;background:radial-gradient(ellipse at 50% 85%,#6deaff55,transparent 55%),linear-gradient(180deg,#063c7600,#052d6155);box-shadow:inset 0 0 0 2px #ffffff12}
+#homePanel .heroRow:before{content:"✦     ✧       ✦      ✧";position:absolute;top:10px;left:0;right:0;z-index:-1;text-align:center;color:#fff5a8;font-size:18px;letter-spacing:10px;animation:scStars 3s ease-in-out infinite;pointer-events:none}
+#homePanel .heroThumb{animation:scHeroBob 2.5s ease-in-out infinite;filter:drop-shadow(0 7px 0 #06264c66)}
+#homePanel .heroThumb.cyan{animation-delay:.22s}#homePanel .heroThumb.purple{animation-delay:.44s}
+#homePanel .big{min-height:47px;transition:filter .15s,transform .15s;}
+#homePanel #playBtn{font-size:19px;letter-spacing:1px;background:linear-gradient(#fff16b,#ffb21b);border-color:#fff7b5;box-shadow:0 6px 0 #a64c16,0 0 20px #ffca3750;color:#69340a;animation:scPlayPulse 1.8s ease-in-out infinite}
+#homePanel .blueBtn{box-shadow:0 5px 0 #17558d,0 0 12px #2bb8ff20}
+#homePanel .sub,#homePanel .small{position:relative;text-shadow:0 2px 3px #062344}
+@keyframes scHeroBob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+@keyframes scLogoFloat{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(-1deg) translateY(-3px)}}
+@keyframes scStars{0%,100%{opacity:.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+@keyframes scHomeGlow{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(12deg)}}
+@keyframes scPlayPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
+@media(max-width:600px){#homePanel .heroRow{min-height:136px;gap:8px}#homePanel .heroThumb{width:55px;height:65px}#homePanel .heroThumb:before{left:9px;top:8px}#homePanel .heroThumb:after{left:14px;top:18px}}
+
 </style>
 </head>
 <body>
