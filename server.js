@@ -1,20 +1,102 @@
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
-const crypto = require('crypto');
 const path = require('path');
+const { Server } = require('socket.io');
+
 const app = express();
-app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/bots.html', (_req, res) => res.sendFile(path.join(__dirname, 'bots.html')));
-app.get('/online.html', (_req, res) => res.sendFile(path.join(__dirname, 'online.html')));
-app.get('/health', (_req, res) => res.json({ ok: true, uptime: Math.round(process.uptime()) }));
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*', methods: ['GET', 'POST'] } });
-const waiting = [], rooms = new Map(), players = new Map(), MAX_PLAYERS = 2;
-function safeName(v) { return String(v || 'Игрок').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 16) || 'Игрок'; }
-function publicPlayer(p) { return { id:p.id, name:p.name, x:p.x, z:p.z, hp:p.hp, hero:p.hero, alive:p.hp>0 }; }
-function removeFromQueue(id) { const i=waiting.indexOf(id); if(i>=0) waiting.splice(i,1); }
-function leaveRoom(socket, notify=true) { const p=players.get(socket.id); if(!p||!p.room)return; const roomId=p.room, room=rooms.get(roomId); if(room){if(notify)socket.to(roomId).emit('match:opponent-left');room.ids=room.ids.filter(id=>id!==socket.id);if(room.ids.length===0)rooms.delete(roomId);else{const other=players.get(room.ids[0]);if(other)other.room=null;rooms.delete(roomId);}}socket.leave(roomId);p.room=null; }
-function matchmake(){while(waiting.length>=MAX_PLAYERS){const aId=waiting.shift(),bId=waiting.shift(),a=players.get(aId),b=players.get(bId);if(!a||!b||!a.socket.connected||!b.socket.connected){if(a&&a.socket.connected)waiting.unshift(aId);if(b&&b.socket.connected)waiting.unshift(bId);continue;}const roomId='match-'+crypto.randomBytes(5).toString('hex'),room={id:roomId,ids:[aId,bId]};rooms.set(roomId,room);a.room=b.room=roomId;a.x=-5;a.z=0;a.hp=100;b.x=5;b.z=0;b.hp=100;a.socket.join(roomId);b.socket.join(roomId);io.to(roomId).emit('match:found',{roomId,players:[publicPlayer(a),publicPlayer(b)],tickRate:20});}io.emit('server:stats',{online:players.size,waiting:waiting.length});}
-io.on('connection',socket=>{const p={id:socket.id,socket,name:'Игрок',room:null,x:0,z:0,hp:100,hero:0,lastMove:0,lastShot:0};players.set(socket.id,p);socket.emit('server:ready',{serverTime:Date.now(),online:players.size,waiting:waiting.length});socket.on('queue:join',data=>{p.name=safeName(data&&data.name);p.hero=Math.max(0,Math.min(2,Number(data&&data.hero)||0));if(p.room)return socket.emit('queue:error',{message:'Ты уже в матче.'});if(waiting.includes(socket.id))return socket.emit('queue:waiting',{position:waiting.indexOf(socket.id)+1});waiting.push(socket.id);socket.emit('queue:waiting',{position:waiting.length});matchmake();});socket.on('queue:cancel',()=>{removeFromQueue(socket.id);socket.emit('queue:cancelled');io.emit('server:stats',{online:players.size,waiting:waiting.length});});socket.on('player:move',data=>{if(!p.room||!data)return;const now=Date.now();if(now-p.lastMove<35)return;p.lastMove=now;const x=Number(data.x),z=Number(data.z);if(!Number.isFinite(x)||!Number.isFinite(z))return;p.x=Math.max(-17,Math.min(17,x));p.z=Math.max(-9,Math.min(9,z));p.hero=Math.max(0,Math.min(2,Number(data.hero)||0));socket.to(p.room).emit('player:moved',publicPlayer(p));});socket.on('player:shot',data=>{if(!p.room||!data)return;const now=Date.now();if(now-p.lastShot<220)return;p.lastShot=now;const x=Number(data.x),z=Number(data.z),vx=Number(data.vx),vz=Number(data.vz);if(![x,z,vx,vz].every(Number.isFinite))return;socket.to(p.room).emit('player:shot',{id:p.id,x,z,vx,vz});});socket.on('player:damage',data=>{if(!p.room||!data)return;const room=rooms.get(p.room);if(!room||!room.ids.includes(data.targetId)||data.targetId===p.id)return;const target=players.get(data.targetId);if(!target||target.hp<=0)return;target.hp=Math.max(0,target.hp-Math.max(1,Math.min(20,Number(data.amount)||10)));io.to(p.room).emit('player:health',{id:target.id,hp:target.hp});if(target.hp<=0)io.to(p.room).emit('match:ended',{winnerId:p.id,loserId:target.id});});socket.on('match:leave',()=>{removeFromQueue(socket.id);leaveRoom(socket);});socket.on('disconnect',()=>{removeFromQueue(socket.id);leaveRoom(socket);players.delete(socket.id);io.emit('server:stats',{online:players.size,waiting:waiting.length});});});
-const PORT=process.env.PORT||3000;server.listen(PORT,'0.0.0.0',()=>console.log(`STAR CLASH server listening on ${PORT}`));
+const io = new Server(server, { cors: { origin: '*' }, transports: ['websocket', 'polling'] });
+const PORT = process.env.PORT || 3000;
+const players = new Map();
+const queue = [];
+const MATCH_SIZE = 2;
+
+app.use(express.static(__dirname));
+app.get('/health', (_req, res) => res.json({ ok: true, players: players.size, queued: queue.length, uptime: Math.round(process.uptime()) }));
+app.get('/', (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+
+function publicPlayer(p) { return { id: p.id, name: p.name, x: p.x, z: p.z, angle: p.angle, hp: p.hp, mode: p.mode }; }
+function broadcastState(room) {
+  const ids = io.sockets.adapter.rooms.get(room);
+  if (!ids) return;
+  const list = [...ids].map(id => players.get(id)).filter(Boolean).map(publicPlayer);
+  io.to(room).emit('state', { players: list });
+}
+function removeFromQueue(id) {
+  for (let i = queue.length - 1; i >= 0; i--) if (queue[i].id === id) queue.splice(i, 1);
+}
+function tryMatch() {
+  while (queue.length >= MATCH_SIZE) {
+    const a = queue.shift(), b = queue.shift();
+    if (!players.has(a.id) || !players.has(b.id)) continue;
+    const room = `match-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    const pa = players.get(a.id), pb = players.get(b.id);
+    pa.room = room; pb.room = room;
+    pa.x = -7; pa.z = 0; pa.hp = 100; pb.x = 7; pb.z = 0; pb.hp = 100;
+    io.sockets.sockets.get(a.id)?.join(room);
+    io.sockets.sockets.get(b.id)?.join(room);
+    io.to(room).emit('match-found', { room, players: [publicPlayer(pa), publicPlayer(pb)] });
+    io.to(room).emit('match-message', { message: 'СОПЕРНИК НАЙДЕН! ПОБЕДИ ЕГО!' });
+    broadcastState(room);
+  }
+}
+io.on('connection', socket => {
+  players.set(socket.id, { id: socket.id, name: 'Игрок', x: 0, z: 0, angle: 0, hp: 100, mode: 'online', room: null, lastMove: 0 });
+  socket.emit('welcome', { id: socket.id });
+  socket.on('join-queue', data => {
+    const p = players.get(socket.id); if (!p) return;
+    p.name = String(data?.name || 'Игрок').slice(0, 18);
+    p.mode = 'online'; p.hp = 100;
+    if (p.room) { socket.leave(p.room); p.room = null; }
+    removeFromQueue(socket.id);
+    if (!queue.some(q => q.id === socket.id)) queue.push({ id: socket.id, joined: Date.now() });
+    socket.emit('queue-status', { message: `ПОИСК СОПЕРНИКА… В ОЧЕРЕДИ: ${queue.length}` });
+    tryMatch();
+  });
+  socket.on('player-ready', data => {
+    const p = players.get(socket.id); if (!p) return;
+    p.name = String(data?.name || 'Игрок').slice(0, 18);
+    p.x = Number.isFinite(data?.x) ? Math.max(-30, Math.min(30, data.x)) : 0;
+    p.z = Number.isFinite(data?.z) ? Math.max(-30, Math.min(30, data.z)) : 0;
+  });
+  socket.on('move', data => {
+    const p = players.get(socket.id); if (!p || !p.room) return;
+    const now = Date.now(); if (now - p.lastMove < 25) return; p.lastMove = now;
+    if (Number.isFinite(data?.x)) p.x = Math.max(-30, Math.min(30, data.x));
+    if (Number.isFinite(data?.z)) p.z = Math.max(-30, Math.min(30, data.z));
+    if (Number.isFinite(data?.angle)) p.angle = data.angle;
+    broadcastState(p.room);
+  });
+  socket.on('shoot', data => {
+    const p = players.get(socket.id); if (!p || !p.room || p.hp <= 0) return;
+    const dx = Number(data?.dx) || 0, dz = Number(data?.dz) || 0;
+    const length = Math.hypot(dx, dz) || 1, ux = dx / length, uz = dz / length;
+    socket.to(p.room).emit('remote-shot', { id: socket.id, x: p.x, z: p.z, dx: ux, dz: uz });
+    const ids = io.sockets.adapter.rooms.get(p.room);
+    if (!ids) return;
+    for (const id of ids) {
+      if (id === socket.id) continue;
+      const target = players.get(id); if (!target || target.hp <= 0) continue;
+      const vx = target.x - p.x, vz = target.z - p.z;
+      const dist = Math.hypot(vx, vz);
+      const along = vx * ux + vz * uz;
+      const cross = Math.abs(vx * uz - vz * ux);
+      if (along > 0 && along < 11 && cross < 1.45) {
+        target.hp = Math.max(0, target.hp - 20);
+        broadcastState(p.room);
+        if (target.hp <= 0) {
+          io.to(p.room).emit('match-ended', { winnerId: socket.id, loserId: target.id, winnerName: p.name });
+        }
+        break;
+      }
+    }
+  });
+  socket.on('disconnect', () => {
+    removeFromQueue(socket.id);
+    const p = players.get(socket.id);
+    if (p?.room) { socket.to(p.room).emit('player-left', { id: socket.id }); socket.to(p.room).emit('match-message', { message: 'Соперник отключился' }); }
+    players.delete(socket.id);
+    tryMatch();
+  });
+});
+server.listen(PORT, '0.0.0.0', () => console.log(`STAR CLASH server listening on ${PORT}`));

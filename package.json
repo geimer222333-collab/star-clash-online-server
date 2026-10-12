@@ -1,8 +1,14 @@
 {
-  "name": "star-clash-online",
-  "version": "1.1.0",
-  "description": "STAR CLASH 3D with bots and online mode",
+  "name": "star-clash-online-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "STAR CLASH 3D browser arena and Socket.IO matchmaking server",
   "main": "server.js",
-  "scripts": {"start": "node server.js"},
-  "dependencies": {"express": "^4.21.2", "socket.io": "^4.8.1"}
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
 }
